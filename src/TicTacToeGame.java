@@ -9,6 +9,7 @@ public class TicTacToeGame {
 			tictactoe[i] = " ";
 		}
 	}
+
 	public void computerSymbol() {
 		String player;
 		do {	
@@ -27,9 +28,24 @@ public class TicTacToeGame {
 			}
 		}while(player!="O" || player!="X");
 	}
+	public void showBoard() {
+		for(int i = 1; i <= 3; i++) {
+			for(int j = 0; j < 3; j++) {
+				System.out.print(tictactoe[i+j]);
+				if(j<2) {
+					System.out.print(" | ");
+				}
+			}
+			if(i == 3) {
+				break;
+			}
+			System.out.println("\n------------");
+		}
+	}
 	public static void main(String[] args) {
 		TicTacToeGame t = new TicTacToeGame();
 		t.createBoard();
 		t.computerSymbol();	
+		t.showBoard();
 		}
 }
