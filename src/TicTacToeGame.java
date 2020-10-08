@@ -2,16 +2,17 @@ import java.util.Scanner;
 
 public class TicTacToeGame {
 	Scanner scanner = new Scanner(System.in);
+	static String player;
 	public static String[] tictactoe = new String[10];
 	String computer = "";
 	public void createBoard() {
-		for(int i = 1; i < tictactoe.length; i++ ){
+		for(int i = 1; i < 10; i++ ){
 			tictactoe[i] = " ";
 		}
 	}
 
 	public void computerSymbol() {
-		String player;
+		
 		do {	
 			System.out.println("Enter the symbol for player from X or O");
 			player = scanner.nextLine();
@@ -29,23 +30,34 @@ public class TicTacToeGame {
 		}while(player!="O" || player!="X");
 	}
 	public void showBoard() {
-		for(int i = 1; i <= 3; i++) {
-			for(int j = 0; j < 3; j++) {
-				System.out.print(tictactoe[i+j]);
-				if(j<2) {
-					System.out.print(" | ");
-				}
+		for(int i = 1; i < 10; i++) {
+			System.out.print(tictactoe[i]);
+			if((2 * i) % 3 != 0) {
+				System.out.print(" | ");
 			}
-			if(i == 3) {
-				break;
+			if(i % 3 == 0 && i!=9) {
+				System.out.println("\n----------");
 			}
-			System.out.println("\n------------");
+		}
+		System.out.println();
+	}
+	public void makeMove(int position) {
+		if(tictactoe[position] == " ") {
+			tictactoe[position] = player;
+		}
+		else {
+			System.out.println("Enter empty position");
 		}
 	}
 	public static void main(String[] args) {
 		TicTacToeGame t = new TicTacToeGame();
+		Scanner scan = new Scanner(System.in);
 		t.createBoard();
 		t.computerSymbol();	
+		System.out.println("Enter the position for move");
+		int position = scan.nextInt();
+		t.makeMove(position);
 		t.showBoard();
+		scan.close();
 		}
 }
