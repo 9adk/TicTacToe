@@ -41,7 +41,7 @@ public class TicTacToeGame {
 		}
 		System.out.println();
 	}
-	public void makeMove(int position) {
+	public void makeMove(int position) {	
 		if(tictactoe[position] == " ") {
 			tictactoe[position] = player;
 		}
@@ -53,10 +53,16 @@ public class TicTacToeGame {
 		TicTacToeGame t = new TicTacToeGame();
 		Scanner scan = new Scanner(System.in);
 		t.createBoard();
-		t.computerSymbol();	
-		System.out.println("Enter the position for move");
-		int position = scan.nextInt();
-		t.makeMove(position);
+		t.computerSymbol();
+		String choice;
+		do {
+			System.out.println("Enter the position for move");
+			int position = scan.nextInt();
+			scan.nextLine();
+			t.makeMove(position);
+			System.out.println("Want to enter again");
+			choice = scan.nextLine();
+		}while(choice.equals("yes"));
 		t.showBoard();
 		scan.close();
 		}
