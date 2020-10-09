@@ -4,7 +4,7 @@ public class TicTacToeGame {
 	Scanner scanner = new Scanner(System.in);
 	static String symbol1;
 	public static String[] tictactoe = new String[10];
-	static String computer = "";
+	static String computer;
 
 	/**
 	 * Usecase 1
@@ -59,7 +59,7 @@ public class TicTacToeGame {
 	 * @return
 	 */
 	public String makeMove(int position, String whoIsPlaying, String symbol) {
-		boolean check = isWinner(symbol);
+		boolean check = isWinner(tictactoe,symbol);
 		boolean tie = isTie();
 		if (tictactoe[position] == " " && check == false && tie == false) {
 			if (whoIsPlaying.equals("User")) {
@@ -74,13 +74,6 @@ public class TicTacToeGame {
 		}
 		return whoIsPlaying;
 	}
-
-	
-	public int computerIsPlaying() {
-		int position = (int) Math.floor((Math.random()) * 10) % 9 + 1;
-		return position;
-	}
-
 	/**
 	 * Usecase6
 	 * 
@@ -121,56 +114,70 @@ public class TicTacToeGame {
 	 * @param symbol
 	 * @return
 	 */
-	public boolean isWinner(String symbol) {
+	public boolean isWinner(String[] board, String symbol) {
 		boolean flag = false;
-		if (tictactoe[1].equals(symbol) && tictactoe[2].equals(symbol) && tictactoe[3].equals(symbol)) {
+		if (board[1].equals(symbol) && board[2].equals(symbol) && board[3].equals(symbol)) {
 			flag = true;
-		} else if (tictactoe[4].equals(symbol) && tictactoe[5].equals(symbol) && tictactoe[6].equals(symbol)) {
+		} else if (board[4].equals(symbol) && board[5].equals(symbol) && board[6].equals(symbol)) {
 			flag = true;
-		} else if (tictactoe[7].equals(symbol) && tictactoe[8].equals(symbol) && tictactoe[9].equals(symbol)) {
+		} else if (board[7].equals(symbol) && board[8].equals(symbol) && board[9].equals(symbol)) {
 			flag = true;
-		} else if (tictactoe[1].equals(symbol) && tictactoe[5].equals(symbol) && tictactoe[9].equals(symbol)) {
+		} else if (board[1].equals(symbol) && board[5].equals(symbol) && board[9].equals(symbol)) {
 			flag = true;
-		} else if (tictactoe[3].equals(symbol) && tictactoe[5].equals(symbol) && tictactoe[7].equals(symbol)) {
+		} else if (board[3].equals(symbol) && board[5].equals(symbol) && board[7].equals(symbol)) {
 			flag = true;
-		} else if (tictactoe[1].equals(symbol) && tictactoe[4].equals(symbol) && tictactoe[7].equals(symbol)) {
+		} else if (board[1].equals(symbol) && board[4].equals(symbol) && board[7].equals(symbol)) {
 			flag = true;
-		} else if (tictactoe[2].equals(symbol) && tictactoe[5].equals(symbol) && tictactoe[8].equals(symbol)) {
+		} else if (board[2].equals(symbol) && board[5].equals(symbol) && board[8].equals(symbol)) {
 			flag = true;
-		} else if (tictactoe[3].equals(symbol) && tictactoe[6].equals(symbol) && tictactoe[9].equals(symbol)) {
+		} else if (board[3].equals(symbol) && board[6].equals(symbol) && board[9].equals(symbol)) {
 			flag = true;
 		}
 		return flag;
 	}
+	/**Usecase8
+	 * @return
+	 */
+	public int winPosition() {
+		String[] copyOfBoard = tictactoe.clone();
+		for(int i = 1; i < copyOfBoard.length; i++){
+			if(copyOfBoard[i].equals(" ")) {
+				copyOfBoard[i] = computer;
+				if(isWinner(copyOfBoard,computer)) {
+					return i;
+				}
+			}
+		}
+		return 0;
+	}
 
 	public static void main(String[] args) {
-		TicTacToeGame tictactoe = new TicTacToeGame();
+		TicTacToeGame tictac = new TicTacToeGame();
 		Scanner scan = new Scanner(System.in);
-		tictactoe.createBoard();
-		tictactoe.chooseSymbol();
-		String player = tictactoe.playFirst();
+		tictac.createBoard();
+		tictac.chooseSymbol();
+		String player = tictac.playFirst();
 		do {
 			if (player.equals("Computer")) {
-				int compsPosition = tictactoe.computerIsPlaying();
-
-				player = tictactoe.makeMove(compsPosition, player, symbol1);
-				tictactoe.showBoard();
+				int compsPosition = tictac.winPosition();
+				player = tictac.makeMove(compsPosition, player, computer);
+				tictac.showBoard();
 			} else {
 				System.out.println("Enter the position for move");
 				int position = scan.nextInt();
 				scan.nextLine();
-				player = tictactoe.makeMove(position, player, computer);
-				tictactoe.showBoard();
+				player = tictac.makeMove(position, player, symbol1);
+				tictac.showBoard();
 			}
-			if (tictactoe.isWinner(symbol1) == true) {
+			if (tictac.isWinner(tictactoe,symbol1) == true) {
 				System.out.println("Winner is User");
 				break;
-			} else if (tictactoe.isWinner(computer) == true) {
+			} else if (tictac.isWinner(tictactoe,computer) == true) {
 				System.out.println("Winner is Computer");
 				break;
 			}
-		} while (tictactoe.isTie() == false);
-		tictactoe.showBoard();
+		} while (tictac.isTie() == false);
+		tictac.showBoard();
 		scan.close();
 	}
 }
