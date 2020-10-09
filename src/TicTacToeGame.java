@@ -4,13 +4,14 @@ public class TicTacToeGame {
 	Scanner scanner = new Scanner(System.in);
 	static int countMoves = 0;
 	static String symbol1;
-	public static String[] tictactoe = new String[10];
+	public static String[] tictactoe;
 	static String computer;
 
 	/**
 	 * Usecase1
 	 */
 	public void createBoard() {
+		tictactoe = new String[10];
 		for (int i = 1; i < 10; i++) {
 			tictactoe[i] = " ";
 		}
@@ -65,6 +66,7 @@ public class TicTacToeGame {
 			System.out.println("Invalid position");
 		} else if (tictactoe[position].equals(" ")) {
 			tictactoe[position] = symbol1;
+			System.out.println("User played the move");
 			play = "Computer";
 			countMoves++;
 		} else {
@@ -242,34 +244,39 @@ public class TicTacToeGame {
 	public static void main(String[] args) {
 		TicTacToeGame tictac = new TicTacToeGame();
 		Scanner scan = new Scanner(System.in);
-		tictac.createBoard();
-		tictac.chooseSymbol();
-		String player = tictac.playFirst();
-		while (true) {
-			if (player.equals("Computer")) {
-				player = tictac.compMove();
-				if (tictac.isWinner(tictactoe, computer) == 1) {
-					System.out.println("Winner is Computer");
-					break;
-				} else if (tictac.isWinner(tictactoe, computer) == 2) {
-					System.out.println("No one has won the game");
-					break;
-				}
-			} else {
-				System.out.println("Enter the position for move");
-				int position = scan.nextInt();
-				scan.nextLine();
-				player = tictac.makeMove(position);
-				tictac.showBoard();
-				if (tictac.isWinner(tictactoe, symbol1) == 1) {
-					System.out.println("Winner is User");
-					break;
-				} else if (tictac.isWinner(tictactoe, symbol1) == 2) {
-					System.out.println("No one has won the game");
-					break;
+		String choice;
+		do {
+			tictac.createBoard();
+			tictac.chooseSymbol();
+			String player = tictac.playFirst();
+			while (true) {
+				if (player.equals("Computer")) {
+					player = tictac.compMove();
+					if (tictac.isWinner(tictactoe, computer) == 1) {
+						System.out.println("Winner is Computer");
+						break;
+					} else if (tictac.isWinner(tictactoe, computer) == 2) {
+						System.out.println("Game Over !!");
+						break;
+					}
+				} else {
+					System.out.println("Enter the position for move");
+					int position = scan.nextInt();
+					scan.nextLine();
+					player = tictac.makeMove(position);
+					tictac.showBoard();
+					if (tictac.isWinner(tictactoe, symbol1) == 1) {
+						System.out.println("Winner is User");
+						break;
+					} else if (tictac.isWinner(tictactoe, symbol1) == 2) {
+						System.out.println("Game Over !!");
+						break;
+					}
 				}
 			}
-		}
+			System.out.println("Do you want to play another game");
+			choice = scan.nextLine();
+		}while(choice.equals("yes"));
 		scan.close();
 	}
 }
